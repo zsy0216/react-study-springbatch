@@ -84,6 +84,7 @@ class SiderDemo extends Component {
                             <Breadcrumb.Item>报表</Breadcrumb.Item>
                         </Breadcrumb>
                         <div style={{ padding: 24, background: '#fff', minHeight: 780 }}>
+                        
                             <Route exact path="/" component={Home}></Route>
                             <Route path="/customers" component={CustomerInfo}></Route>
                             <Route path="/details" component={Detail}></Route>
