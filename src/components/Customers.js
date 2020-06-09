@@ -1,6 +1,9 @@
 import React,{Component} from 'react';
-import { Table, Pagination  } from 'antd';
-import axios from 'axios'
+import { Table, Input  } from 'antd';
+
+import axios from 'axios';
+
+const { Search } = Input;
 
 const columns = [
     {
@@ -52,7 +55,21 @@ class Customers extends Component {
         super(props);
         this.state = {
             dataSource: [],
-        }
+        };
+        // 保证 这个方法里面的 this 和 Customer 中的 this 是同一个对象
+        // 或者使用箭头函数
+        // this.onSearchHandler = this.onSearchHandler.bind(this);
+    }
+
+    onSearchHandler = (value) => {
+      const that = this;
+      console.log(that);
+      axios.get('http://localhost:8088/customers/'+value).then((response)=>{
+        let result = response.data.data;
+        that.setState ({
+          dataSource: result
+        })
+      }).catch(error => console.log(error));
     }
 
     componentDidMount(){
@@ -66,17 +83,26 @@ class Customers extends Component {
             console.log(result);
         }).catch(function(error){
             console.log(error);
-        })
+        });
     }
 
     render (){
         return(
             // <h1>客户信息</h1>
-            <Table 
+            <div>
+              <Search 
+                placeholder="请输入客户名..."
+                enterButton="搜索"
+                style={{ width: 300, marginBottom: "10px" }}
+                size="large"
+                onSearch={this.onSearchHandler}
+              />
+              <Table 
                 bordered 
                 dataSource={this.state.dataSource} 
                 columns={columns} 
-            />
+              />
+            </div>
         )
     }
 }
