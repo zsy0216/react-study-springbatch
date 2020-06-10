@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { Table, Input} from 'antd';
+import { Table, Input, Button} from 'antd';
 import axios from 'axios';
 import moment from 'moment'
 
@@ -27,6 +27,39 @@ class Details extends Component {
         const that = this;
         console.log(that);
         axios.get('http://localhost:8088/details/'+value).then((response)=>{
+          let result = response.data.data;
+          that.setState ({
+            dataSource: result
+          })
+        }).catch(error => console.log(error));
+    }
+
+    onSortNameHandler = () => {
+        const that = this;
+        console.log(that);
+        axios.get('http://localhost:8088/details/sort/surname').then((response)=>{
+          let result = response.data.data;
+          that.setState ({
+            dataSource: result
+          })
+        }).catch(error => console.log(error));
+    }
+
+    onSortTypeHandler = () => {
+        const that = this;
+        console.log(that);
+        axios.get('http://localhost:8088/details/sort/tran_type').then((response)=>{
+          let result = response.data.data;
+          that.setState ({
+            dataSource: result
+          })
+        }).catch(error => console.log(error));
+    }
+
+    onSortBillHandler = () => {
+        const that = this;
+        console.log(that);
+        axios.get('http://localhost:8088/details/sort/bill').then((response)=>{
           let result = response.data.data;
           that.setState ({
             dataSource: result
@@ -68,6 +101,25 @@ class Details extends Component {
                 size="large"
                 onSearch={this.onSearchHandler}
               />
+                <Button
+                type="primary "
+                style={{ marginRight: "30px" }}
+                onClick={this.onSortNameHandler}
+                size="large"
+               >按客户名排序</Button>
+
+               <Button
+                type="primary "
+                style={{ marginRight: "30px" }}
+                onClick={this.onSortTypeHandler}
+                size="large"
+               >按交易类型排序</Button> 
+
+               <Button
+                type="primary "
+                onClick={this.onSortBillHandler}
+                size="large"
+               >按交易金额排序</Button> 
             
                 <Table bordered dataSource ={this.state.dataSource}>
                     <Column title ='交易id' dataIndex='transId' align='center' />
